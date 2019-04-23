@@ -14,6 +14,7 @@ namespace BT
 
     public class BehaivourTree
     {
+        //I want to come back to the later and fully create a factory pattern
         public static ActionNode MoveTo(System.Func<NodeState> MoveTo) { return new ActionNode(MoveTo); }
         public static Sequence sequence(params TreeNode[] children) { Sequence seq = new Sequence(); seq.OpenBranch(children); return seq; }
         
@@ -72,7 +73,7 @@ namespace BT
                 case NodeState.Running:
                     return NodeState.Running;
                 default:
-                    throw new System.Exception("This shouldn't happen but it has, you should rethink a few things");
+                    throw new System.Exception("https://www.youtube.com/watch?v=TIZneWRGxZ8");
             }
         }
     }
@@ -107,7 +108,7 @@ namespace BT
                     State = NodeState.Running;
                     return NodeState.Running;
                 default:
-                    throw new System.Exception("This shouldn't happen but it has, you should rethink a few things");
+                    throw new System.Exception("https://www.youtube.com/watch?v=TIZneWRGxZ8");
             }
         }
     }
@@ -119,6 +120,34 @@ namespace BT
         public override NodeState Tick()
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class Succeeder : Decorator
+    {
+        TreeNode node;
+
+        public Succeeder(TreeNode node)
+        {
+            this.node = node;
+        }
+
+        public override NodeState Tick()
+        {
+            switch (node.Tick())
+            {
+                case NodeState.Succeeded:
+                    State = NodeState.Succeeded;
+                    return NodeState.Succeeded;
+                case NodeState.Failed:
+                    State = NodeState.Succeeded;
+                    return NodeState.Succeeded;
+                case NodeState.Running:
+                    State = NodeState.Running;
+                    return NodeState.Running;
+                default:
+                    return NodeState.Failed;
+            }
         }
     }
 
@@ -217,7 +246,7 @@ namespace BT
                 case NodeState.Failed:
                     return NodeState.Failed;
                 default:
-                    throw new System.Exception("This shouldn't happen but it has, you should rethink a few things");
+                    throw new System.Exception("https://www.youtube.com/watch?v=TIZneWRGxZ8");
             }
         }
     }
@@ -259,7 +288,7 @@ namespace BT
                     State = NodeState.Failed;
                     return NodeState.Failed;
                 default:
-                    throw new System.Exception("This shouldn't happen but it has, you should rethink a few things");
+                    throw new System.Exception("https://www.youtube.com/watch?v=TIZneWRGxZ8");
             }
         }
     }
@@ -294,7 +323,7 @@ namespace BT
                     State = NodeState.Failed;
                     return NodeState.Failed;
                 default:
-                    throw new System.Exception("This shouldn't happen but it has, you should rethink a few things");
+                    throw new System.Exception("https://www.youtube.com/watch?v=TIZneWRGxZ8");
             }
         }
     }
@@ -323,7 +352,7 @@ namespace BT
                     State = NodeState.Failed;
                     return NodeState.Failed;
                 default:
-                    throw new System.Exception("This shouldn't happen but it has, you should rethink a few things");
+                    throw new System.Exception("https://www.youtube.com/watch?v=TIZneWRGxZ8");
             }
         }
     }

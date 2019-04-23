@@ -14,6 +14,7 @@ public class BanditBehaviourTree  {
 
     MoveAction moveToPlayer;
     MoveAction moveToPoint;
+    ActionNode moveToCover;
     ThisOrThat aiIsAgro;
 
     //Idle Nodes
@@ -38,10 +39,10 @@ public class BanditBehaviourTree  {
     {
         moveToPlayer = new MoveAction(bandit.Move, bandit.FindPlayer);
         moveToPoint = new MoveAction(bandit.Move, bandit.GetCurrentPatrolPoint);
-
+        moveToCover = new ActionNode(bandit.MoveToCover);
         patrol.OpenBranch(
            moveToPoint,
-           new ConditionalAction(bandit.HasReachedPoint)
+          new ActionNode(bandit.HasReachedPoint)
            );
 
         fire = new ActionNode(bandit.Attack);
@@ -55,15 +56,15 @@ public class BanditBehaviourTree  {
             new ThisOrThat(fire, reload, bandit.CanFire));
 
         combatMovement.OpenBranch(
-            new Inverter( playerInView), 
-            moveToPlayer
+           new Inverter(playerInView),
+            new ThisOrThat(moveToPlayer, moveToCover, bandit.HasHighHealth)
+           
             );
 
-        //Not finished
+  
         combat.OpenBranch(
             firingSequence,
             combatMovement
-          
             );
         
         //TODO add functionality to calculate a cover position
